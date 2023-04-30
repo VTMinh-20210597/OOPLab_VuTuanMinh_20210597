@@ -5,6 +5,7 @@ public class Cart
 	private DigitalVideoDisc itemsOrdered[] = new DigitalVideoDisc[MAX_NUMBERS_ORDERED];
 	
 	private int qtyOrdered = 0;
+	private float Sum = 0;
 	
 	public Cart()
 	{
@@ -50,7 +51,7 @@ public class Cart
 		return;
 	}
 	
-	float Sum = 0;
+	
 	
 	public float totalCost()
 	{
