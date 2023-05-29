@@ -253,6 +253,8 @@ public class Aims
 		{
 			System.out.println("Type the name of media you are looking for:");
 			
+			String name_media = sc.nextLine();
+			
 			Media media_i = cart.findMedia(name_media); 
 			media_i.toString();
 			
