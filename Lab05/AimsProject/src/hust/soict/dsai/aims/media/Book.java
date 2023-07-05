@@ -2,6 +2,8 @@ package hust.soict.dsai.aims.media;
 
 import java.util.ArrayList;
 
+import hust.soict.dsai.aims.exception.NonExistingItemException;
+
 public class Book extends Media
 {
 	private ArrayList<String> authors = new ArrayList<String>();
@@ -29,7 +31,8 @@ public class Book extends Media
 		this.id = "B"  + Integer.toString(nbBook);
 	}
 
-	public ArrayList<String> getAuthors() {
+	public ArrayList<String> getAuthors() 
+	{
 	return authors;}
 
 	public void setAuthors(ArrayList<String> authors) 
@@ -50,23 +53,34 @@ public class Book extends Media
 		System.out.println("This author has been added");
 	}
 	
-	public void removeAuthor(String authorName)
+	public void removeAuthor(String authorName) throws NonExistingItemException 
 	{
-		if(!authors.contains(authorName))
+		for (String name: this.authors) 
 		{
-			System.out.println("This author doesn't exist");
-			return;
+			if (name.toLowerCase().equals(authorName.toLowerCase())) 
+			{
+				this.authors.remove(name);
+				System.out.println(name + " has been removed from the " + this.getTitle() + " list of authors.");
+				return;
+			}
 		}
-		
-		authors.remove(authorName);
-		System.out.println("This author has been deleted");
-		
-		return;
+		throw new NonExistingItemException(authorName + " is not in the list of authors.");
 	}
 
 	@Override
-	public String toString() {
-		return "Book [authors=" + authors + ", id=" + id + ", title=" + title + ", category=" + category + ", cost="
+	public String getDetails() 
+	{
+		StringBuffer authorsList = new StringBuffer();
+		if (this.authors.size() >= 1) 
+		{
+			authorsList.append(this.authors.get(0));
+			for (int i = 1; i < this.authors.size(); i++) 
+			{
+				authorsList.append(", " + this.authors.get(i));
+			}
+		}
+		return "Book [authors=" + authorsList + ", id=" + id + ", title=" + title + ", category=" + category + ", cost="
 				+ cost + "]";
 	}
+
 }

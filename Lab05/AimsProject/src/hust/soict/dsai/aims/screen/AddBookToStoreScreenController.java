@@ -28,7 +28,8 @@ public class AddBookToStoreScreenController extends AddItemToStoreScreenControll
 	}
 
 	@FXML
-	private void addAuthorBtnPressed() {
+	private void addAuthorBtnPressed() 
+	{
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Text Input Dialog");
 		dialog.setHeaderText("You can add new author");
@@ -38,7 +39,9 @@ public class AddBookToStoreScreenController extends AddItemToStoreScreenControll
 		    authors.add(result.get());
 		    if (tfAuthors.getText().length() == 0) {
 		    	tfAuthors.setText(result.get());
-		    } else {
+		    } 
+		    else 
+		    {
 		    	tfAuthors.setText(tfAuthors.getText() + ", " + result.get());
 		    }
 		}
@@ -49,8 +52,13 @@ public class AddBookToStoreScreenController extends AddItemToStoreScreenControll
 	protected void addBtnPressed() 
 	{
 		book = new Book(this.title, this.category, this.cost, this.authors);
-		for (String author: authors) book.addAuthor(author);
-			store.addMedia(book);
+		for (String author: authors) 
+		{
+			book.addAuthor(author);
+		}
+		
+		store.addMedia(book);
+		
 
 	}
 }

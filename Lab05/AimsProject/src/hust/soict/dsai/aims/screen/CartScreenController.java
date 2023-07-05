@@ -3,6 +3,7 @@ package hust.soict.dsai.aims.screen;
 import javax.swing.JFrame;
 import hust.soict.dsai.aims.screen.MediaStore;
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.Playable;
 import hust.soict.dsai.aims.store.Store;
@@ -126,7 +127,18 @@ public class CartScreenController
 	@FXML
 	private void playButtonPressed(ActionEvent event) {
 		Media media = this.tblMedia.getSelectionModel().getSelectedItem();
-		((Playable)media).play();
+		try 
+		{
+			((Playable)media).play();
+		} 
+		catch (PlayerException e) 
+		{
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Media Player");
+			alert.setHeaderText("ERROR: Media length is non-positive.");
+			alert.setContentText("Media cannot be played.");
+			alert.showAndWait();
+		}
 	}
 	
 	@FXML
@@ -195,6 +207,24 @@ public class CartScreenController
 	private void viewStore()
 	{
 		new StoreScreen(this.cart, this.store);
+		frame.setVisible(false);
+	}
+	
+	@FXML
+	private void addDVDToStore() {
+		new AddDVDToStoreScreen(cart, store);
+		frame.setVisible(false);
+	}
+	
+	@FXML
+	private void addBookToStore() {
+		new AddBookToStoreScreen(cart, store);
+		frame.setVisible(false);
+	}
+	
+	@FXML
+	private void addCDToStore() {
+		new AddCDToStoreScreen(cart, store);
 		frame.setVisible(false);
 	}
 	

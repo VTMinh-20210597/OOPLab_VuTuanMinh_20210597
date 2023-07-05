@@ -1,6 +1,14 @@
 package hust.soict.dsai.aims.media;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
+
+import javax.swing.BoxLayout;
+import javax.swing.*;
+
+import hust.soict.dsai.aims.exception.PlayerException;
 
 public class CompactDisc extends Disc implements Playable
 {
@@ -62,17 +70,46 @@ public class CompactDisc extends Disc implements Playable
 		return DiscLength;
 	}
 	
-	public void play() 
+	public void play() throws PlayerException 
 	{
-		System.out.println("Playing CompactDisc: " + this.getTitle());
-		System.out.println("CompactDisc length: " + this.getLength());
-		
-		for(int i = 0; i < tracks.size(); ++i)
+		if (this.getLength() <= 0) 
 		{
-			Track track_i = tracks.get(i);
-			track_i.play();
+			throw new PlayerException("ERROR: CD length is non-positive!");
+		} 
+		else 
+		{
+			System.out.println("Playing CD: " + this.getTitle());
+			
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			JPanel p = new JPanel();
+			JDialog d = new JDialog();
+			JLabel l1 = new JLabel("Now playing: " + this.getTitle());
+			p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+			l1.setAlignmentX(Component.CENTER_ALIGNMENT);
+			d.setTitle("Media Player");
+			p.add(Box.createVerticalGlue());
+			p.add(l1);
+			p.add(Box.createVerticalGlue());
+			d.add(p);
+			d.setSize(250,100);
+			int w = d.getSize().width;
+	        int h = d.getSize().height;
+	        int x = (dim.width - w) / 2;
+	        int y = (dim.height - h) / 2;
+			d.setLocation(x, y);
+			d.setVisible(true);
+			
+			for (Track track: this.tracks) 
+			{
+				try 
+				{
+					track.play();
+				} catch (PlayerException e) 
+				{
+					throw e;
+				}
+			}
 		}
-		
 	}
 
 

@@ -1,4 +1,5 @@
 package hust.soict.dsai.aims.cart;
+import hust.soict.dsai.aims.exception.CartFullException;
 import hust.soict.dsai.aims.media.Media;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,19 +17,19 @@ public class Cart
 	{
 	}
 	
-	public void addMedia(Media media_i)
+	public void addMedia(Media medium) throws CartFullException 
 	{
-		if(itemsOrdered.size() == MAX_NUMBERS_ORDERED)
+		if (this.itemsOrdered.size() == MAX_NUMBERS_ORDERED) 
 		{
-			System.out.println("This Cart is full");
-			return;
+			throw new CartFullException("The cart is full.");
+		} 
+		else 
+		{
+			this.itemsOrdered.add(medium);
+			System.out.println(medium.getTitle() + " has beed added to the cart.");
 		}
-		
-		itemsOrdered.add(media_i);
-		
-		System.out.println("This media has been added");
-		return;
 	}
+	
 	
 	public void removeMedia(Media media_i)
 	{

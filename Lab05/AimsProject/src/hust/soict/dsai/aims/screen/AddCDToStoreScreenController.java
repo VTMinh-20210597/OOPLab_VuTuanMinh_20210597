@@ -109,14 +109,13 @@ public class AddCDToStoreScreenController extends AddItemToStoreScreenController
 	
 	@FXML
 	@Override
-	protected void addBtnPressed() {
+	protected void addBtnPressed() 
+	{
 		cd = new CompactDisc(this.title, this.category, this.artist, this.cost);
-		for (Track track: tracks) 
-		{
-				cd.addTrack(track);
-		}
+		for (Track track: tracks) cd.addTrack(track);
+	
 		store.addMedia(cd);
-			
+
 	}
 
 }

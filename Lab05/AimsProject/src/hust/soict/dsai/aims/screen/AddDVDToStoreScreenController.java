@@ -59,9 +59,12 @@ public class AddDVDToStoreScreenController extends AddItemToStoreScreenControlle
 	
 	@FXML
 	@Override
-	protected void addBtnPressed() {
+	protected void addBtnPressed() 
+	{
 		dvd = new DigitalVideoDisc(this.title, this.category, this.director, this.length, this.cost);
 		store.addMedia(dvd);
+
+
 	}
 	
 }

@@ -22,6 +22,9 @@ import javax.swing.JButton.*;
 import javax.swing.JDialog;
 
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.CartFullException;
+import hust.soict.dsai.aims.exception.PlayerException;
+import hust.soict.dsai.aims.media.Disc;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.Playable;
 import hust.soict.dsai.aims.store.Store;
@@ -50,32 +53,16 @@ public class MediaStore extends JPanel
 		
 		JButton addToCart = new JButton("Add to Cart");
 		container.add(addToCart);
-		addToCart.addActionListener(new ActionListener()
-				{
-					@Override
-					public void actionPerformed(ActionEvent e) 
-					{
-						CartAdding(cart);	
-					}
-			
-				});
+		addToCart.addActionListener(new AddToCartListener());
 		
 		JButton playMedia = new JButton("Play");
-		
-		if(media instanceof Playable)
+		if (media instanceof Playable) 
 		{
-			
-			container.add(playMedia);
-			playMedia.addActionListener(new ActionListener()
-					{
-						@Override
-						public void actionPerformed(ActionEvent e) 
-						{
-							playMedia();
-						}
-				
-					});
+			JButton playButton = new JButton("Play");
+			playButton.addActionListener(new PlayButtonListener());
+			container.add(playButton);
 		}
+
 		
 		this.add(Box.createVerticalGlue());
 		this.add(title);
@@ -87,12 +74,6 @@ public class MediaStore extends JPanel
 		
 	}
 	
-	public void CartAdding(Cart cart) 
-	{
-		cart.addMedia(media);
-        JOptionPane.showMessageDialog(this, "Media added to cart!", "Add to Cart", JOptionPane.INFORMATION_MESSAGE);
-        
-	}
 
 	JDialog playMedia() {
 		JDialog Play = new JDialog();
@@ -103,5 +84,75 @@ public class MediaStore extends JPanel
 		
 	}
 	
+	private class PlayButtonListener implements ActionListener 
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			try 
+			{
+				((Playable)media).play();
+			} catch (PlayerException ex) 
+			{
+				JPanel p = new JPanel();
+				JDialog d = new JDialog();
+				JLabel j1 = new JLabel(media.getTitle() + " cannot be played");
+				JLabel j2 = new JLabel("Media length is non-positive");
+				p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+				j1.setAlignmentX(Component.CENTER_ALIGNMENT);
+				j2.setAlignmentX(Component.CENTER_ALIGNMENT);
+				p.add(Box.createVerticalGlue());
+				p.add(j1);
+				p.add(j2);
+				p.add(Box.createVerticalGlue());
+				d.add(p);
+				d.setSize(250,100);
+				Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+				int w = d.getSize().width;
+		        int h = d.getSize().height;
+		        int x = (dim.width - w) / 2;
+		        int y = (dim.height - h) / 2;
+		        d.setLocation(x,y);
+				d.setVisible(true);
+			}
+		}
+	}
 	
+	private class AddToCartListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			JPanel p = new JPanel();
+			JDialog d = new JDialog();
+			JLabel l = new JLabel();
+			try 
+			{
+				cart.addMedia(media);
+				l.setText(media.getTitle() + " added to cart");
+			} catch (CartFullException ex) 
+			{
+				l.setText("The cart is full");
+			} 
+			finally 
+			{
+				p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+				l.setAlignmentX(Component.CENTER_ALIGNMENT);
+				p.add(Box.createVerticalGlue());
+				p.add(l);
+				p.add(Box.createVerticalGlue());
+				d.add(p);
+				d.setSize(200,100);
+				Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+				int w = d.getSize().width;
+		        int h = d.getSize().height;
+		        int x = (dim.width - w) / 2;
+		        int y = (dim.height - h) / 2;
+		        d.setLocation(x,y);
+				d.setVisible(true);
+			}
+		}
+	}
+
 }
