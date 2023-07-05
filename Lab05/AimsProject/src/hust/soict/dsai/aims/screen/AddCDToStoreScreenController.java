@@ -53,15 +53,12 @@ public class AddCDToStoreScreenController extends AddItemToStoreScreenController
 	
 	@FXML
 	private void addTrackBtnPressed() {
-		// Create the custom dialog.
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
 		dialog.setTitle("Input Dialog");
 		dialog.setHeaderText("You can add new track here");
 
-		// Set the button types.
 		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-		// Create the title and length labels and fields.
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);
@@ -79,7 +76,6 @@ public class AddCDToStoreScreenController extends AddItemToStoreScreenController
 
 		dialog.getDialogPane().setContent(grid);
 
-		// Convert the result to a name-length-pair when the login button is clicked.
 		dialog.setResultConverter(dialogButton -> {
 		    if (dialogButton == ButtonType.OK) {
 		        return new Pair<>(trackTitle.getText(), trackLength.getText());

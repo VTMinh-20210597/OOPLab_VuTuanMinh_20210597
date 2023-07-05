@@ -96,8 +96,6 @@ public class CartScreen extends JFrame
 		DigitalVideoDisc dvd9 = new DigitalVideoDisc("The Matrix", "Sci-Fi", "The Wachowski Brothers", 136, 17.99f);
 		DigitalVideoDisc dvd10 = new DigitalVideoDisc("Aladin2", "Animation", 18.99f);
 
-		//Try adding DVDs
-//		myStore.addMedia(dvd2, 5);
 		myStore.addMedia(dvd2);
 		myStore.addMedia(dvd1);
 		myStore.addMedia(dvd3);
